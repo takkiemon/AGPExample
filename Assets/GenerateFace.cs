@@ -15,44 +15,18 @@ public class GenerateFace : MonoBehaviour {
 
         mesh.Clear();
 
-        //vertexArray = new Mesh[vertexGridXSize * vertexGridYSize];
-
-
-        /*mesh.vertices = new Vector3[] { new Vector3(-1, 0, 0), new Vector3(0, 2, 0), new Vector3(1, 0, 0) };
-        mesh.triangles = new int[] { 0, 1, 2 };
-        mesh.uv = new Vector2[] { new Vector2(0, 0), new Vector2(0, 1), new Vector2(1, 1) };*/
-
-
-
-
-        /*for (int y = 0; y < meshGridYSize; y++)
-        {
-            for (int x = 0; x < meshGridXSize; x++)
-            {
-                meshArray[y * x + x - 1] = new Mesh();
-                meshArray[y * x + x - 1] = GetComponent<MeshFilter>().mesh;
-                //meshArray[y * x + x - 1].Clear();
-                meshArray[y * x + x - 1].vertices = new Vector3[] { new Vector3(x, 0, 0), new Vector3(0, 2 * y, 0), new Vector3(-x, 0, 0) };
-                meshArray[y * x + x - 1].triangles = new int[] { 0, 1, 2 };
-                meshArray[y * x + x - 1].uv = new Vector2[] { new Vector2(1, 1), new Vector2(0, 1), new Vector2(0, 0) };
-            }
-        }*/
-
         vertexArray = new Vector3[vertexGridXSize * vertexGridYSize];
         int[] triangles = new int[(vertexGridXSize - 1) * (vertexGridYSize - 1) * 2 * 3];//fix number overflow (initialization of int can be a negative number, as is now)
         
-        //mesh.uv = new Vector2[(vertexGridXSize - 1) * (vertexGridYSize - 1) * 2 * 3];
-        //mesh.uv = new Vector2[vertexGridXSize * vertexGridYSize];
-
         for (int y = 0; y < vertexGridYSize; y++)
         {
             for (int x = 0; x < vertexGridXSize; x++)
             {
-                Debug.Log("index: " + (y * vertexGridXSize + x) + ", with vertexGridXSize: " + vertexGridXSize + " and vertexGridYSize: " + vertexGridYSize);
+                //Debug.Log("index: " + (y * vertexGridXSize + x) + ", with vertexGridXSize: " + vertexGridXSize + " and vertexGridYSize: " + vertexGridYSize);
                 vertexArray[y * vertexGridXSize + x] = new Vector3(x, y, 0);
                 
             }
-            Debug.Log("testes");
+            //Debug.Log("testes");
         }
 
         /*
@@ -70,24 +44,22 @@ public class GenerateFace : MonoBehaviour {
         */
 
         
-        for (int i = 0; i < triangles.Length; i += 3)
+        for (int i = 0, j = 0; i < triangles.Length; i += 3, j++)
         {
-            triangles[i] = i;
-            if (i + 1 < triangles.Length)
+            triangles[i] = j;
+            if (j + 1 < vertexArray.Length)
             {
-                triangles[i + 1] = i + 1;
+                triangles[i + 1] = j + 1;
             }
-            if (i + 2 < triangles.Length)
+            if (j + 2 < triangles.Length && j + vertexGridXSize < vertexArray.Length)
             {
-                triangles[i + 2] = i + vertexGridXSize;
+                triangles[i + 2] = j + vertexGridXSize;
             }
         }
         
 
         mesh.vertices = vertexArray;
         mesh.triangles = triangles;
-        //mesh.triangles = new int[] { 0, 1, 5, 6, 1, 5 };
-        //mesh.uv = new Vector2[] { new Vector2(1, 1), new Vector2(0, 1), new Vector2(0, 0) };
     }
 
     private void OnDrawGizmos()
