@@ -2,3 +2,27 @@ sceneSetups:
 - path: Assets/Scenes/SampleScene.unity
   isLoaded: 1
   isActive: 1
+- path: Assets/Crumple mesh modifier.unity
+  isLoaded: 0
+  isActive: 0
+- path: Assets/Heightmap generator.unity
+  isLoaded: 0
+  isActive: 0
+- path: Assets/Fractal texture.unity
+  isLoaded: 0
+  isActive: 0
+- path: Assets/Sculpt vertices.unity
+  isLoaded: 0
+  isActive: 0
+- path: Assets/Sinus curve modifier.unity
+  isLoaded: 0
+  isActive: 0
+- path: Assets/Tron trail.unity
+  isLoaded: 0
+  isActive: 0
+- path: Assets/Twist.unity
+  isLoaded: 0
+  isActive: 0
+- path: Assets/Extrusion.unity
+  isLoaded: 0
+  isActive: 0
