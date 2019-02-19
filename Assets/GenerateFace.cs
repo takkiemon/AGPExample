@@ -8,14 +8,13 @@ public class GenerateFace : MonoBehaviour {
     public Mesh mesh;
     public int vertexGridXSize, vertexGridYSize;
     Vector3[] vertexArray;
-
-
+    
     void Start () {
 
         mesh = new Mesh();
 
         vertexArray = new Vector3[vertexGridXSize * vertexGridYSize];
-        int[] triangles = new int[(vertexGridXSize - 1) * (vertexGridYSize - 1) * 3];//fix number overflow (initialization of int can be a negative number, as is now)
+        int[] triangles = new int[(vertexGridXSize - 1) * (vertexGridYSize - 1) * 6];//fix number overflow (initialization of int can be a negative number, as is now)
         
         for (int y = 0; y < vertexGridYSize; y++)
         {
@@ -26,69 +25,20 @@ public class GenerateFace : MonoBehaviour {
             }
         }
 
-        /*
-        for (int ti = 0, vi = 0, x = 0; x < vertexGridXSize; x++, ti += 6, vi++)
+        for (int triIterator = 0, vertIterator = 0; vertIterator < (vertexGridXSize * (vertexGridYSize - 1) - 1); vertIterator++)
         {
-            triangles[ti] = vi;
-            triangles[ti + 1] = vi + 1;
-            triangles[ti + 2] = vi + 1 + vertexGridXSize;
-
-            triangles[ti + 3] = vi + 1;
-            triangles[ti + 4] = vi + 1 + vertexGridXSize;
-            triangles[ti + 5] = vi + vertexGridXSize + 2;
-            Debug.Log(vi + vertexGridXSize + 2);
-        }
-        */
-
-
-        Debug.Log("vertexArray.Length: " + vertexArray.Length);
-        Debug.Log("triangles.Length: " + triangles.Length);
-        Debug.Log("vertexGridXSize: " + vertexGridXSize);
-
-        StringBuilder logText = new StringBuilder();
-        Debug.Log("(vertexGridXSize * (vertexGridYSize - 1) - 1): " + (vertexGridXSize * (vertexGridYSize - 1) - 2));
-        for (int triVertIterator = 0, vertIterator = 0, triIterator = 0; vertIterator < (vertexGridXSize * (vertexGridYSize - 1) - 1); vertIterator++)
-        {
-            logText.Append("t: " + triVertIterator + ", v: " + vertIterator + ". ");
-            Debug.Log("t: " + triVertIterator + ", v: " + vertIterator + ". ");
+            Debug.Log("t: " + triIterator + ", v: " + vertIterator + ". ");
             if ((vertIterator + 1) % vertexGridXSize != 0)
             {
-                triangles[triVertIterator] = vertIterator + 1;
-                triangles[triVertIterator + 1] = vertIterator + vertexGridXSize;
-                triangles[triVertIterator + 2] = vertIterator;
-                triIterator++;
-                triVertIterator += 3;
-                logText.Append("Added Triangle[" + (vertIterator + 1) + ", " + (vertIterator + vertexGridXSize) + ", " + vertIterator + "]");
+                triangles[triIterator] = vertIterator + 1;
+                triangles[triIterator + 1] = vertIterator + vertexGridXSize;
+                triangles[triIterator + 2] = vertIterator;
+                triangles[triIterator + 3] = vertIterator + 1;
+                triangles[triIterator + 4] = vertIterator + vertexGridXSize + 1;
+                triangles[triIterator + 5] = vertIterator + vertexGridXSize;
+                triIterator += 6;
             }
-            else
-            {
-                logText.Append("else'd: t:" + triVertIterator + ", v: " + vertIterator + ".");
-            }
-            logText.Append("\n");
         }
-        logText.ToString();
-        Debug.Log(logText);
-
-        /*
-        for (int i = 0, j = 0; i < triangles.Length; i += 3, j++)
-        {
-            Debug.Log("i: " + i + ", j: " + j + ".");
-            triangles[i] = j;
-            if (j + 1 < vertexArray.Length)
-            {
-                Debug.Log("1st 'if' of i: " + i);
-                triangles[i + 1] = j + 1;
-            }
-            if (j + 2 < triangles.Length && j + vertexGridXSize < vertexArray.Length)
-            {
-                Debug.Log("2nd 'if' of i: " + i);
-                triangles[i + 2] = j + vertexGridXSize;
-                //triangles[i + 2] = j + 2;
-            }
-            Debug.Log("end of i: " + i + ", j: " + j + ".");
-        }
-        Debug.Log("testes002");
-        */
 
         mesh.vertices = vertexArray;
         mesh.triangles = triangles;
@@ -106,5 +56,4 @@ public class GenerateFace : MonoBehaviour {
             Gizmos.DrawSphere(mesh.vertices[i], .2f);
         }
     }
-    
 }
