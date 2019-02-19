@@ -46,20 +46,23 @@ public class GenerateFace : MonoBehaviour {
         Debug.Log("vertexGridXSize: " + vertexGridXSize);
 
         StringBuilder logText = new StringBuilder();
-
-        for (int triangleIterator = 0, vertexIterator = 0; vertexIterator < (vertexGridXSize * (vertexGridYSize - 1)); triangleIterator += 3, vertexIterator++)
+        Debug.Log("(vertexGridXSize * (vertexGridYSize - 1) - 1): " + (vertexGridXSize * (vertexGridYSize - 1) - 2));
+        for (int triVertIterator = 0, vertIterator = 0, triIterator = 0; vertIterator < (vertexGridXSize * (vertexGridYSize - 1) - 1); vertIterator++)
         {
-            logText.Append("t: " + triangleIterator + ", v: " + vertexIterator + ". ");
-            if ((vertexIterator + 1) % vertexGridXSize != 0)
+            logText.Append("t: " + triVertIterator + ", v: " + vertIterator + ". ");
+            Debug.Log("t: " + triVertIterator + ", v: " + vertIterator + ". ");
+            if ((vertIterator + 1) % vertexGridXSize != 0)
             {
-                triangles[triangleIterator] = vertexIterator + 1;
-                triangles[triangleIterator + 1] = vertexIterator + vertexGridXSize;
-                triangles[triangleIterator + 2] = vertexIterator;
-                logText.Append("Added Triangle[" + (vertexIterator + 1) + ", " + (vertexIterator + vertexGridXSize) + ", " + vertexIterator + "]");
+                triangles[triVertIterator] = vertIterator + 1;
+                triangles[triVertIterator + 1] = vertIterator + vertexGridXSize;
+                triangles[triVertIterator + 2] = vertIterator;
+                triIterator++;
+                triVertIterator += 3;
+                logText.Append("Added Triangle[" + (vertIterator + 1) + ", " + (vertIterator + vertexGridXSize) + ", " + vertIterator + "]");
             }
             else
             {
-                logText.Append("else'd: t:" + triangleIterator + ", v: " + vertexIterator + ".");
+                logText.Append("else'd: t:" + triVertIterator + ", v: " + vertIterator + ".");
             }
             logText.Append("\n");
         }
